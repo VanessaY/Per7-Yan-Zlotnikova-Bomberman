@@ -17,11 +17,16 @@ Objs
 * Fire
 * Monsters (opt)
 
+Empty Land
+----------
+* Picture
+
 Boxes
 -----
 * Location
 * Hits it takes to destroy
 * Hits taken
+* possibility to drop powerup
 
 Indestructable extends boxes
 ----------------------------
@@ -31,8 +36,19 @@ Destructable extends boxes
 --------------------------
 * picture
 
+Powerups
+--------
+* Location
+* picture
+* time until despawn
+* Speed up
+* Bomb power up
+* Num bombs up
+* Health up
+
 Player
 ------
+* Picture
 * Speed
 * Direction
 * Location
@@ -42,3 +58,18 @@ Player
 * lives
 * score
 * thing they're riding (opt)
+
+Bombs
+-----
+* Length of fire
+* Time to detonation
+* Location
+* Person dropped by
+* picture
+
+Fire
+----
+* Time till despawn
+* location
+* picture
+
