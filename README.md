@@ -49,7 +49,7 @@ Powerups
 Player
 ------
 * Picture
-* Speed
+* Speed (in ms per box)
 * Direction
 * Location
 * # bombs on field
@@ -73,3 +73,6 @@ Fire
 * location
 * picture
 
+To-Do list
+----------
+FIGURE OUT PROCESSING
