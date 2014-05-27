@@ -17,27 +17,26 @@ Objs
 * Fire
 * Monsters (opt)
 
-Empty Land
-----------
+Empty Land (class Item)
+-----------------------
 * Picture
+* ~~Location~~
 
-Boxes
------
-* Location
+Boxes (class Box extends Item)
+------------------------------
 * Hits it takes to destroy
 * Hits taken
-* possibility to drop powerup
 
-Indestructable extends boxes
-----------------------------
-* picture
+Indestructible (class IndestructibleBox extends Box)
+----------------------------------------------------
+* Nothing at all. Probably.
 
-Destructable extends boxes
---------------------------
-* picture
+Destructible (class DestrucibleBox extends Box)
+-----------------------------------------------
+* takeHit (hits taken ++)
 
-Powerups
---------
+Powerups (class Powerup extends Item)
+-------------------------------------
 * Location
 * picture
 * time until despawn
@@ -72,7 +71,7 @@ Fire
 * Time till despawn
 * location
 * picture
-
+* 
 To-Do list
 ----------
 FIGURE OUT PROCESSING
