@@ -19,13 +19,15 @@ Objs
 
 Empty Land (class Item)
 -----------------------
+* Should the empty land be an item? should it instead be if null display this picture
 * Picture
 * ~~Location~~
+* remove self from grid (check how gridworld does it)
 
 Boxes (class Box extends Item)
 ------------------------------
-* Hits it takes to destroy
-* Hits taken
+* ~~Hits it takes to destroy~~
+* ~~Hits taken~~
 
 Indestructible (class IndestructibleBox extends Box)
 ----------------------------------------------------
@@ -34,26 +36,37 @@ Indestructible (class IndestructibleBox extends Box)
 Destructible (class DestrucibleBox extends Box)
 -----------------------------------------------
 * takeHit (hits taken ++)
+* drop powerup
 
 Powerups (class Powerup extends Item)
 -------------------------------------
-* Location
-* picture
 * time until despawn
-* Speed up
-* Bomb power up
-* Num bombs up
-* Health up
+* despawn (ticks down)
+* fade when almost despawned
+
+Speed up (class SpeedUp extends Powerup)
+----------------------------------------
+* speedIncrease(player) (speed++)
+
+Health up (class HealthUp extends Powerup)
+------------------------------------------
+* healthIncrease(player) (health++)
+
+Bomb strength up (class StrengthUp extends Powerup)
+---------------------------------------------------
+* strengthIncrease(player) (strength++)
+
+Bomb numbers up (class NumbersUp extends PowerUp)
+-------------------------------------------------
+* numbersIncrease(player) (number++)
 
 Player
 ------
-* Picture
 * Speed (in ms per box)
 * Direction
-* Location
 * # bombs on field
 * # max bombs allowed
-* range of bombs
+* strength of bombs
 * lives
 * score
 * thing they're riding (opt)
@@ -72,6 +85,7 @@ Fire
 * location
 * picture
 * 
+
 To-Do list
 ----------
 FIGURE OUT PROCESSING
