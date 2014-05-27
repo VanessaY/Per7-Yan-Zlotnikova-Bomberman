@@ -7,9 +7,13 @@ private class Item{ //also used (for now at least) if there is an empty spot
               color fillColor, color strokeColor){
     this.x = x;
     this.y = y;
-    this.size = 20;
+    this.size = 50;
     this.fillColor = fillColor;
     this.strokeColor = strokeColor;
+  }
+  
+  public Item(float x, float y){
+    this(x, y, 255, 255);
   }
   
   public void display(){
@@ -46,3 +50,21 @@ private class IndestructibleBox extends Box{
     super.display();
   }
 }
+
+private class DestructibleBox extends Box{
+  public DestructibleBox(float x, float y, int toDestroy){
+    super(x, y, 200, 255, toDestroy, 0);
+  }
+  public DestructibleBox(float x, float y){
+    this(x, y, 1);
+  }
+  
+  public void display(){
+    super.display();
+  }
+  
+  public void takeHit(){
+    hitsTaken++;
+  }
+}
+
