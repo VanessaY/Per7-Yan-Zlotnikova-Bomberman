@@ -6,6 +6,7 @@ int rows = 10;
 
 void setup() { 
   size(500, 500);
+  background(100);
   grid = new Item[cols][rows];
   try{
     BufferedReader reader = createReader("map1.txt");

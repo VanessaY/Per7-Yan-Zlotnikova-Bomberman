@@ -1,25 +1,22 @@
 private class Item{ //also used (for now at least) if there is an empty spot
   private float x, y, size;
-  color fillColor, strokeColor;
+  PImage img;
   //CHANGE COLOR INTO PICTURE
   
   public Item(float x, float y,
-              color fillColor, color strokeColor){
+              String fileName){
     this.x = x;
     this.y = y;
     this.size = 50;
-    this.fillColor = fillColor;
-    this.strokeColor = strokeColor;
+    img = loadImage(fileName);
   }
   
   public Item(float x, float y){
-    this(x, y, 255, 255);
+    this(x, y, "images/empty.png");
   }
   
   public void display(){
-    fill(fillColor);
-    stroke(strokeColor);
-    rect(x, y, size, size);
+    image(img, x, y);
   }
 }
   
@@ -30,9 +27,9 @@ private class Box extends Item{
   color fillColor, strokeColor;
  
   public Box(float x, float y,
-             color fillColor, color strokeColor,
+             String img,
              int toDestroy, int hitsTaken) {
-    super(x, y, fillColor, strokeColor);
+    super(x, y, img);
     this.toDestroy = toDestroy;
     this.hitsTaken = hitsTaken;
   }
@@ -44,7 +41,7 @@ private class Box extends Item{
 
 private class IndestructibleBox extends Box{
   public IndestructibleBox(float x, float y){
-      super(x, y, 50, 255, -1, 0);
+      super(x, y, "images/indestructible.png", -1, 0);
   }
   public void display(){
     super.display();
@@ -53,7 +50,7 @@ private class IndestructibleBox extends Box{
 
 private class DestructibleBox extends Box{
   public DestructibleBox(float x, float y, int toDestroy){
-    super(x, y, 200, 255, toDestroy, 0);
+    super(x, y, "images/destructible.png", toDestroy, 0);
   }
   public DestructibleBox(float x, float y){
     this(x, y, 1);
@@ -68,3 +65,8 @@ private class DestructibleBox extends Box{
   }
 }
 
+private class Bomb{
+  int tMinusSeconds;
+  int strength;
+  public Bomb(float x, float y, int tMinusSeconds, String img, int str)
+}
