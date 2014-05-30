@@ -1,3 +1,4 @@
+import java.util.*;
 Item[][] grid;
 
 int cols = 10;
@@ -6,24 +7,29 @@ int rows = 10;
 void setup() { 
   size(500, 500);
   grid = new Item[cols][rows];
-  for (int c=0; c<cols; c++) { 
-    for (int r=0; r<rows; r++) { 
-      if (c == 0 || c == 9 || r == 0 || r == 9){
-        grid[c][r] = new IndestructibleBox(c*50, r*50);
+  try{
+    BufferedReader reader = createReader("map1.txt");
+    for (int r = 0; r < rows; r++){
+      try{
+        String line = reader.readLine();
+        for (int c = 0; c < line.length(); c++){
+          String ch = line.substring(c, c+1);
+          if (ch.equals(" ")){
+            grid[c][r] = new Item(c*50, r*50);
+          }
+          else if (ch.equals("x")){
+            grid[c][r] = new IndestructibleBox(c*50, r*50);
+          }
+          else if (ch.equals("1")){
+            grid[c][r] = new DestructibleBox(c*50, r*50);
+          }
+        }
       }
-      /*
-      else if ((c == 3 || c == 6) && (r == 3 || r == 6)){
-        grid[c][r] = new IndestructibleBox(c*50, r*50);
+      catch(Exception e){
       }
-      else if ((c == 1 || c == 8) && (r == 1 || r == 8)){
-        grid[c][r] = new Item(c*50, r*50);
-      }
-      */
-      else{
-        grid[c][r] = new DestructibleBox(c*50, r*50);
-      }
-      
     }
+  }
+  catch(Exception e){
   }
 }
 
