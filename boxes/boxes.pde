@@ -23,6 +23,8 @@ void setup() {
           }
           else if (ch.equals("1")){
             grid[c][r] = new DestructibleBox(c*50, r*50);
+            //grid[c][r] = new Bomb(c*50,r*50,2,4);
+           //^^to test the bomb
           }
         }
       }

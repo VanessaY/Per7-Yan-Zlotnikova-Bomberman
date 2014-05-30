@@ -65,8 +65,38 @@ private class DestructibleBox extends Box{
   }
 }
 
-private class Bomb{
+private class Bomb extends Item{ 
   int tMinusSeconds;
   int strength;
-  public Bomb(float x, float y, int tMinusSeconds, String img, int str)
+  
+  public Bomb(float x, float y, int tMinusSeconds, String img, int str) {
+    super(x,y,img);
+    strength = str;
+    this.tMinusSeconds = tMinusSeconds;
+  }
+  
+  public Bomb(float x, float y, int tMinusSeconds, int str) { //for the typical black bomb
+    super(x,y,"images/bomb.png");
+    strength = str;
+    this.tMinusSeconds = tMinusSeconds;
+  }
+  
+  public void explode() { 
+      
+  }
+}
+
+private class Fire extends Item { 
+    int tMinusSeconds; 
+    
+    public Fire(float x, float y, int tMinusSeconds, int strength) { 
+      super(x,y,"images/fire.png");
+      for (int i=x; i<x+strength; i++) { 
+        super(i,y,"images/fire.png");
+      }
+      for (int i=y; i<y+strength; i++) { 
+        super(x,i,"images/fire.png");
+      }
+    }
+   
 }
