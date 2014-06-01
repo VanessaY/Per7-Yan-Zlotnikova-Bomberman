@@ -22,8 +22,10 @@ void setup() {
             grid[c][r] = new IndestructibleBox(c*50, r*50);
           }
           else if (ch.equals("1")){
-            //grid[c][r] = new DestructibleBox(c*50, r*50);
-            Bomb b = new  Bomb(c*50,r*50,2,4);
+             grid[c][r] = new DestructibleBox(c*50, r*50);
+          }
+          else if (ch.equals("b")) { 
+            Bomb b = new  Bomb(c*50,r*50,2,1);
             grid[c][r] = b;
             b.explode();
            //^^to test the bomb

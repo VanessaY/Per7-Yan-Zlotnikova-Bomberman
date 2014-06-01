@@ -91,21 +91,24 @@ private class Bomb extends Item {
 
   public void explode() { 
 
-    int i = (int)getX()/50;
+    int i = (int)getX()/50-strength;
     int ix = (int)getX()/50; //constant
-    int maxX = (int)getX()+strength;
-    int j = (int)getY()/50;
+    int maxX = (int)getX()/50+strength;
+    int j = (int)getY()/50-strength;
     int jy = (int)getY()/50; //constant
-    int maxY = (int)getY() + strength;
-    while (i<maxX) { 
+    int maxY = (int)getY()/50 + 2*strength;
+    strength;
+    while (i<=maxX) { 
 //if ((grid[i][jy] instanceof Bomb) || !(grid[i][jy] instanceof IndestructibleBox)) { 
         grid[i][jy] = new Fire(i*50, jy*50, 3);
         i++;
     }
-    while (j<maxY) { 
+   
+    while (j<=maxY) { 
       grid[ix][j] = new Fire(ix*50, j*50, 3);
       j++;
     }
+    
   }
 }
 
