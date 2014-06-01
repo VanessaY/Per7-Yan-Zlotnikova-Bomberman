@@ -4,7 +4,7 @@ Item[][] grid;
 int cols = 10;
 int rows = 10;
 
-void setup() { 
+void setup() {
   size(500, 500);
   background(100);
   grid = new Item[cols][rows];
@@ -22,12 +22,11 @@ void setup() {
             grid[c][r] = new IndestructibleBox(c*50, r*50);
           }
           else if (ch.equals("1")){
-             grid[c][r] = new DestructibleBox(c*50, r*50);
+            grid[c][r] = new DestructibleBox(c*50, r*50);
           }
-          else if (ch.equals("b")) { 
-            Bomb b = new  Bomb(c*50,r*50,2,1);
-            grid[c][r] = b;
-            b.explode();
+          else if (ch.equals("b")) {
+            grid[c][r] = new Bomb(c*50, r*50, 2, 1);
+            ((Bomb)grid[c][r]).explode();
            //^^to test the bomb
           }
         }
@@ -41,10 +40,11 @@ void setup() {
 }
 
 void draw() { 
+  background(100);
   for (int c=0; c<cols; c++) { 
-    for (int r=0; r<rows; r++) { 
+    for (int r=0; r<rows; r++) {
+      System.out.println(grid[c][r] + " " + c + " " + r);
       grid[c][r].display();
     }
   }
 }
-
