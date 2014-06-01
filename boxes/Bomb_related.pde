@@ -36,13 +36,19 @@ public class Bomb extends Item {
     if (maxY > 9){
       maxY = 9;
     }
-     
-    System.out.println("bomb at " + x + ", " + y + "\n" + "minX = " + minX);
+    
     int goingLeft = x; //starts from bomb location, goes left.
     while (goingLeft >= minX){
       //if the fire is able to get to this spot
       grid[goingLeft][y] = new Fire(goingLeft*50, y*50, 3);
       goingLeft--;
+    }
+    
+    int goingUp = y; 
+    while (goingUp >= minY){
+      //if the fire is able to get to this spot
+      grid[x][goingUp] = new Fire(x*50, goingUp*50, 3);
+      goingUp--;
     }
     
   }
