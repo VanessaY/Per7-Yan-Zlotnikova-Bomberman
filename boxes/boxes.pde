@@ -3,6 +3,8 @@ Item[][] grid;
 
 int cols = 10;
 int rows = 10;
+int co;
+int ro;
 
 void setup() {
   size(500, 500);
@@ -23,11 +25,11 @@ void setup() {
           }
           else if (ch.equals("1")){
             grid[c][r] = new DestructibleBox(c*50, r*50);
-          }
+          }  
           else if (ch.equals("b")) {
+            co = c;
+            ro = r;
             grid[c][r] = new Bomb(c*50, r*50, 2, 2);
-            ((Bomb)grid[c][r]).explode();
-           //^^to test the bomb
           }
         }
       }
