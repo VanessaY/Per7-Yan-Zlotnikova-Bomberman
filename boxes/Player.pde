@@ -18,6 +18,7 @@ private class Player extends Item{
     this.health = health;
     this.speed = speed;
     sprite = loadImage(filename);
+    sprite.resize(boxSize, boxSize);
   }
   
   public Player(float x, float y, String filename){
@@ -31,6 +32,7 @@ private class Player extends Item{
   public void PDisplay(){
     image(sprite, x, y);
   }
+  
 }
 
 private class PlayerA extends Player{

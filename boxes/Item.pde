@@ -7,9 +7,10 @@ public class Item { //also used (for now at least) if there is an empty spot
   String fileName) {
     this.x = x;
     this.y = y;
-    this.size = 50;
+    this.size = boxSize;
     this.arr = arr;
     img = loadImage(fileName);
+    img.resize(boxSize, boxSize);
   }
 
   public Item(float x, float y) {
