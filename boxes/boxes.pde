@@ -23,9 +23,9 @@ void setup() {
           }
           else if (ch.equals("1")){
             grid[c][r] = new DestructibleBox(c*50, r*50);
-          }  
-          else if (ch.equals("b")) {
-            grid[c][r] = new Bomb(c*50, r*50, 2, 2);
+          }
+          else if (ch.equals("a")){
+            grid[c][r] = new PlayerA(c*50, r*50);
           }
         }
       }
@@ -35,8 +35,6 @@ void setup() {
   }
   catch(Exception e){
   }
-  ((Bomb)grid[8][1]).explode();
-  ((Bomb)grid[4][5]).explode();
 }
 
 void draw() { 
@@ -44,6 +42,9 @@ void draw() {
   for (int c=0; c<cols; c++) { 
     for (int r=0; r<rows; r++) {
       grid[c][r].display();
+      if (grid[c][r] instanceof Player){
+        ((Player)grid[c][r]).PDisplay();
+      }
     }
   }
 }
