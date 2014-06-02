@@ -33,5 +33,8 @@ private class DestructibleBox extends Box {
 
   public void takeHit() {
     hitsTaken++;
+    if (hitsTaken == toDestroy){
+      removeSelf();
+    }
   }
 }

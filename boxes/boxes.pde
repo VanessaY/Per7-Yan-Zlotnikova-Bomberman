@@ -3,8 +3,6 @@ Item[][] grid;
 
 int cols = 10;
 int rows = 10;
-int co;
-int ro;
 
 void setup() {
   size(500, 500);
@@ -27,8 +25,6 @@ void setup() {
             grid[c][r] = new DestructibleBox(c*50, r*50);
           }  
           else if (ch.equals("b")) {
-            co = c;
-            ro = r;
             grid[c][r] = new Bomb(c*50, r*50, 2, 2);
           }
         }
@@ -39,13 +35,14 @@ void setup() {
   }
   catch(Exception e){
   }
+  ((Bomb)grid[8][1]).explode();
+  ((Bomb)grid[4][5]).explode();
 }
 
 void draw() { 
   background(100);
   for (int c=0; c<cols; c++) { 
     for (int r=0; r<rows; r++) {
-      //System.out.println(grid[c][r].toString() + " " + c + " " + r);
       grid[c][r].display();
     }
   }
