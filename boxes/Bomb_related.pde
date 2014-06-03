@@ -13,6 +13,10 @@ public class Bomb extends Item {
     strength = str;
     this.tMinusSeconds = tMinusSeconds;
   }
+
+  public Bomb(float x, float y){
+    this(x, y, 3, 2);
+  }
   
   public void explode() {
     
