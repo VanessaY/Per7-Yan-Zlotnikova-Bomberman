@@ -9,6 +9,10 @@ private class Player extends Item{
   
   //Bounds of box
   float topLeftX, topLeftY, topRightX, topRightY, botLeftX, botLeftY, botRightX, botRightY;
+  
+  //approximate location of player
+  float centerX, centerY;
+  
   PImage sprite;
   public Player(float x, float y, String filename,
                 int bombStr, int bombsOnField, int bombsAllowed, 
@@ -21,10 +25,11 @@ private class Player extends Item{
     this.speed = speed;
     sprite = loadImage(filename);
     sprite.resize(boxSize, boxSize);
+    boundUpdate();
   }
   
   public Player(float x, float y, String filename){
-    this(x, y, filename, 1, 0, 1, 3, 8, "images/empty.png");
+    this(x, y, filename, 1, 0, 1, 3, 5, "images/empty.png");
   }
   
   public Player(float x, float y){
@@ -32,23 +37,27 @@ private class Player extends Item{
   }
   
   public void boundUpdate(){
-    topLeftX = x + 5;
-    topLeftY = y + 5;
-    topRightX= x + boxSize-5;
-    topRightY= y + 5;
-    botLeftX = x + 5;
-    botLeftY = y + boxSize - 5;
-    botRightX= x + boxSize - 5;
-    botRightY= y + boxSize - 5 ;
+    topLeftX = x + 3;
+    topLeftY = y + 3;
+    topRightX= x + boxSize-3;
+    topRightY= y + 3;
+    botLeftX = x + 3;
+    botLeftY = y + boxSize - 3;
+    botRightX= x + boxSize - 3;
+    botRightY= y + boxSize - 3 ;
+    centerX = x + (boxSize/2);
+    centerY = y + (boxSize/2);
   }
   
   public void PDisplay(){
     boundUpdate();
     image(sprite, x, y);
+    rect(centerX - 5, centerY - 5, 10, 10);
   }
   
   private boolean canGo(Item a, Item b){
-    return !(a instanceof DestructibleBox || a instanceof IndestructibleBox || b instanceof DestructibleBox || b instanceof IndestructibleBox);
+    return !(a instanceof DestructibleBox || a instanceof IndestructibleBox || a instanceof Bomb ||
+             b instanceof DestructibleBox || b instanceof IndestructibleBox || b instanceof Bomb);
   }
   
   public void moveUp(){
@@ -78,6 +87,12 @@ private class Player extends Item{
     if (canGo(topRightIn, botRightIn)){
       x = x + speed;
     }
+  }
+  
+  public void dropBomb(){
+    int xLoc = (int)(centerX/boxSize);
+    int yLoc = (int)(centerY/boxSize);
+    grid[xLoc][yLoc] = new Bomb(xLoc*boxSize, yLoc*boxSize, bombStr);
   }
 }
 

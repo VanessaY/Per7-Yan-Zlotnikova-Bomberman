@@ -22,6 +22,6 @@ public class Item { //also used (for now at least) if there is an empty spot
   }
   
   public void removeSelf(){
-    grid[(int)x][(int)y] = new Item(x, y);
+    grid[(int)(x/boxSize)][(int)(y/boxSize)] = new Item(x, y);
   }
 }

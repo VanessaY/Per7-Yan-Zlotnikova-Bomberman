@@ -10,7 +10,7 @@ PlayerC c;
 PlayerD d;
 
 //PlayerA
-boolean wPressed, sPressed, aPressed, dPressed;
+boolean wPressed, sPressed, aPressed, dPressed, vPressed;
 
 void setup() {
   boxSize = 50;
@@ -38,8 +38,9 @@ void setup() {
             a = (PlayerA)grid[c][r];
           }
           else if (ch.equals("b")){
-            grid[c][r] = new PlayerB(c*boxSize, r*boxSize);
-            b = (PlayerB)grid[c][r];
+            //grid[c][r] = new PlayerB(c*boxSize, r*boxSize);
+            //b = (PlayerB)grid[c][r];
+            grid[c][r] = new Bomb(c*boxSize, r*boxSize);
           }
           else if (ch.equals("c")){
             grid[c][r] = new PlayerC(c*boxSize, r*boxSize);
@@ -71,6 +72,9 @@ void keyPressed(){
   else if (key == 'd'){
     dPressed = true;
   }
+  else if (key == 'v'){
+    vPressed = true;
+  }
 }
 void keyReleased(){
   if (key == 'w'){
@@ -85,13 +89,23 @@ void keyReleased(){
   else if (key == 'd'){
     dPressed = false;
   }
+  else if (key == 'v'){
+    vPressed = false;
+  }
 }
 
 void draw() { 
   background(100);
   for (int c=0; c<cols; c++) { 
     for (int r=0; r<rows; r++) {
-      grid[c][r].display();
+      Item obj = grid[c][r];
+      obj.display();
+      if (obj instanceof Bomb){
+        ((Bomb)obj).countDown();
+      }
+      else if (obj instanceof Fire){
+        ((Fire)obj).countDown();
+      }
     }
   }
   
@@ -141,5 +155,11 @@ void draw() {
     catch (Exception e){
     }
   }
-  
+  if (vPressed){
+    try{
+      a.dropBomb();
+    }
+    catch (Exception E){
+    }
+  }
 }
