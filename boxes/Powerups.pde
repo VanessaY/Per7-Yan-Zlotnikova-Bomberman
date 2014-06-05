@@ -6,9 +6,11 @@ private class Powerup extends Item{
     this.secDespawn = secDespawn;
     framesToDespawn = (int)secDespawn;
   }
+  
   public Powerup(float x, float y, String img){
     this(x, y, img, 1);
   }
+  
 }
 
 private class SpeedUp extends Powerup{

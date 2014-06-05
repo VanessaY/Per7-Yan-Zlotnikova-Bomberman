@@ -68,8 +68,22 @@ private class Player extends Item{
            return false;
          }
      else{
-       if (grid[(int)(centerX/boxSize)][(int)(centerY/boxSize)] instanceof Fire){
+       int xCor = (int)(centerX/boxSize);
+       int yCor = (int)(centerY/boxSize);
+       if (grid[xCor][yCor] instanceof Fire){
          getHit();
+       }
+       else if (grid[xCor][yCor] instanceof SpeedUp) { 
+         speed = speed + 1;
+         grid[xCor][yCor] = new Item(xCor*boxSize, yCor*boxSize);
+       } 
+       else if (grid[xCor][yCor] instanceof HealthUp) { 
+         health = health + 1;
+         grid[xCor][yCor] = new Item(xCor*boxSize, yCor*boxSize);
+       }
+       else if (grid[xCor][yCor] instanceof StrUp) { 
+         bombStr = bombStr + 1;
+         grid[xCor][yCor] = new Item(xCor*boxSize, yCor*boxSize);
        }
        return true;
      }

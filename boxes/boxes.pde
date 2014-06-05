@@ -27,6 +27,16 @@ void setup() {
         String line = reader.readLine();
         for (int c = 0; c < line.length(); c++){
           String ch = line.substring(c, c+1);
+          if (ch.equals("s")) { 
+            grid[c][r] = new SpeedUp(c*boxSize, r*boxSize);
+          }
+          if (ch.equals("h")) { 
+            grid[c][r] = new HealthUp(c*boxSize, r*boxSize);
+          }
+          if (ch.equals("t")) { 
+            grid[c][r] = new StrUp(c*boxSize, r*boxSize);
+          }
+          
           if (ch.equals(" ")){
             grid[c][r] = new Item(c*boxSize, r*boxSize);
           }
