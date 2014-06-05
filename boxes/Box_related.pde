@@ -1,3 +1,4 @@
+
 private class Box extends Item {
   private float x, y, size;
   int toDestroy;

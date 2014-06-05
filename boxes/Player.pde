@@ -1,4 +1,5 @@
 //implement 4 directions and their pictures
+//work on lives
 
 private class Player extends Item{
   //bomb related
@@ -6,6 +7,7 @@ private class Player extends Item{
   
   //player
   int health, speed;
+  boolean isAlive;
   
   //Bounds of box
   float topLeftX, topLeftY, topRightX, topRightY, botLeftX, botLeftY, botRightX, botRightY;
@@ -13,11 +15,16 @@ private class Player extends Item{
   //approximate location of player
   float centerX, centerY;
   
+  //bomb hit variables
+  float secInvulnerable; 
+  int framesInvulnerable;
+  
   PImage sprite;
   public Player(float x, float y, String filename,
                 int bombStr, int bombsOnField, int bombsAllowed, 
                 int health, int speed, String displayImg){
     super(x, y, displayImg);
+    this.isAlive = true;
     this.bombStr = bombStr;
     this.bombsOnField = bombsOnField;
     this.bombsAllowed = bombsAllowed;
@@ -56,8 +63,16 @@ private class Player extends Item{
   }
   
   private boolean canGo(Item a, Item b){
-    return !(a instanceof DestructibleBox || a instanceof IndestructibleBox || a instanceof Bomb ||
-             b instanceof DestructibleBox || b instanceof IndestructibleBox || b instanceof Bomb);
+     if (a instanceof DestructibleBox || a instanceof IndestructibleBox || a instanceof Bomb ||
+         b instanceof DestructibleBox || b instanceof IndestructibleBox || b instanceof Bomb){
+           return false;
+         }
+     else{
+       if (grid[(int)(centerX/boxSize)][(int)(centerY/boxSize)] instanceof Fire){
+         getHit();
+       }
+       return true;
+     }
   }
   
   public void moveUp(){
@@ -93,6 +108,17 @@ private class Player extends Item{
     int xLoc = (int)(centerX/boxSize);
     int yLoc = (int)(centerY/boxSize);
     grid[xLoc][yLoc] = new Bomb(xLoc*boxSize, yLoc*boxSize, bombStr);
+  }
+  
+  public void getHit(){
+    health--;
+    if (health == 0){
+      die();
+    }
+  }
+  
+  public void die(){
+    isAlive = false;
   }
 }
 

@@ -1,3 +1,6 @@
+//movements for players b, c, d
+//ghetto mode
+
 import java.util.*;
 Item[][] grid;
 
@@ -111,18 +114,30 @@ void draw() {
   
   try{
     a.PDisplay();
+    if (!(a.isAlive)){
+      a = null;
+    }
   }
   catch (Exception e){}
   try{
     b.PDisplay();
+    if (!(b.isAlive)){
+      b = null;
+    }
   }
   catch (Exception e){}
   try{
     c.PDisplay();
+    if (!(c.isAlive)){
+      c = null;
+    }
   }
   catch (Exception e){}
   try{
     d.PDisplay();
+    if (!(d.isAlive)){
+      d = null;
+    }
   }
   catch (Exception e){}
   
