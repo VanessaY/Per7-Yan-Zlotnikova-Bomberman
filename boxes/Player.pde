@@ -1,6 +1,5 @@
 //implement 4 directions and their pictures
-//work on lives
-
+//transparencies when invulnerable
 private class Player extends Item{
   //bomb related
   int bombStr, bombsOnField, bombsAllowed;
@@ -83,6 +82,10 @@ private class Player extends Item{
        }
        else if (grid[xCor][yCor] instanceof StrUp) { 
          bombStr = bombStr + 1;
+         grid[xCor][yCor] = new Item(xCor*boxSize, yCor*boxSize);
+       }
+       else if (grid[xCor][yCor] instanceof BombUp){
+         bombsAllowed = bombsAllowed + 1;
          grid[xCor][yCor] = new Item(xCor*boxSize, yCor*boxSize);
        }
        return true;

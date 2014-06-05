@@ -1,13 +1,13 @@
+import java.util.*;
 
 private class Box extends Item {
-  private float x, y, size;
   int toDestroy;
   int hitsTaken;
   color fillColor, strokeColor;
 
   public Box(float x, float y, 
-  String img, 
-  int toDestroy, int hitsTaken) {
+             String img, 
+              int toDestroy, int hitsTaken) {
     super(x, y, img);
     this.toDestroy = toDestroy;
     this.hitsTaken = hitsTaken;
@@ -25,17 +25,26 @@ private class IndestructibleBox extends Box {
 }
 
 private class DestructibleBox extends Box {
-  public DestructibleBox(float x, float y, int toDestroy) {
+  int percentDrop;
+  
+  public DestructibleBox(float x, float y, int toDestroy, int percentDrop) {
     super(x, y, "images/destructible.png", toDestroy, 0);
+    this.percentDrop = percentDrop;
   }
   public DestructibleBox(float x, float y) {
-    this(x, y, 1);
+    this(x, y, 1, 100);
   }
 
   public void takeHit() {
     hitsTaken++;
     if (hitsTaken == toDestroy){
-      removeSelf();
+      grid[(int)x/boxSize][(int)y/boxSize] = new Fire(x, y, checkDrop());
     }
+  }
+  
+  public boolean checkDrop(){
+    Random r = new Random();
+    int x = r.nextInt(100);
+    return (x < percentDrop);
   }
 }

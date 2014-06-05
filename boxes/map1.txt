@@ -1,10 +1,10 @@
 xxxxxxxxxx
-xa s111  x
-x  h1111 x
-xt1111111x
-x11111111x
-x11111111x
-x11111111x
+xa  111  x
+x 1 1111 x
+x11 11111x
+x11 11111x
+x11 11111x
+x11 11111x
 x 111111 x
 x  1111  x
 xxxxxxxxxx

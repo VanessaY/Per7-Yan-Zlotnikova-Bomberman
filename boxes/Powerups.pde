@@ -1,3 +1,6 @@
+//despawn
+//transparent when despawn
+
 private class Powerup extends Item{
   float secDespawn;
   int framesToDespawn;
@@ -28,6 +31,12 @@ private class HealthUp extends Powerup{
 private class StrUp extends Powerup{
   public StrUp(float x, float y){
     super(x, y, "images/syringe.png");
+  }
+}
+
+private class BombUp extends Powerup{
+  public BombUp(float x, float y){
+    super(x, y, "images/bombup.png");
   }
 }
 

@@ -1,3 +1,5 @@
+//if hit with fire, explode
+
 public class Bomb extends Item {
   float tMinusSeconds;
   int framesToDetonate;
@@ -57,7 +59,7 @@ public class Bomb extends Item {
     while (goingLeft >= minX && !(grid[goingLeft][y] instanceof IndestructibleBox)){
       //if the fire is able to get to this spot
       if (grid[goingLeft][y] instanceof DestructibleBox){
-        grid[goingLeft][y] = new Fire(goingLeft*boxSize, y*boxSize);
+        ((DestructibleBox)grid[goingLeft][y]).takeHit();
         goingLeft = minX - 1;
       }
       else{
@@ -108,23 +110,51 @@ public class Bomb extends Item {
 private class Fire extends Item { 
   float tMinusSeconds; 
   int framesToDelete;
+  boolean isDrop;
   
-  public Fire(float x, float y, float tMinusSeconds) { 
+  public Fire(float x, float y, float tMinusSeconds, boolean isDrop) { 
     super(x, y, "images/fire.png");
     this.tMinusSeconds = tMinusSeconds;
     this.framesToDelete = (int)(tMinusSeconds*60);
+    this.isDrop = isDrop;
+  }
+  
+  public Fire(float x, float y, Boolean b){
+    this(x, y, 1, b);
   }
   
   public Fire(float x, float y){
-    this(x, y, 1);
+    this(x, y, 1, false);
   }
   
   public void countDown(){
     if (framesToDelete == 0){
-      removeSelf();
+      if (isDrop){
+        drop();
+      }
+      else{
+        removeSelf();
+      }
     }
     else{
       framesToDelete--;
+    }
+  }
+  
+  public void drop(){
+    Random r = new Random();
+    int p = r.nextInt(4);
+    if (p == 0){
+      grid[(int)(x/boxSize)][(int)(y/boxSize)] = new SpeedUp(x, y);
+    }
+    else if (p == 1){
+      grid[(int)(x/boxSize)][(int)(y/boxSize)] = new HealthUp(x, y);      
+    }
+    else if (p == 2){
+      grid[(int)(x/boxSize)][(int)(y/boxSize)] = new StrUp(x, y);
+    }
+    else if (p == 3){
+      grid[(int)(x/boxSize)][(int)(y/boxSize)] = new BombUp(x, y);
     }
   }
 }
