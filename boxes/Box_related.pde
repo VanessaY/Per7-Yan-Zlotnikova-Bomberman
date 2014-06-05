@@ -32,7 +32,7 @@ private class DestructibleBox extends Box {
     this.percentDrop = percentDrop;
   }
   public DestructibleBox(float x, float y) {
-    this(x, y, 1, 100);
+    this(x, y, 1, 33);
   }
 
   public void takeHit() {

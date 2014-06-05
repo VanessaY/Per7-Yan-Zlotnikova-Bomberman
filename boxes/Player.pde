@@ -122,9 +122,12 @@ private class Player extends Item{
   }
   
   public void dropBomb(){
-    int xLoc = (int)(centerX/boxSize);
-    int yLoc = (int)(centerY/boxSize);
-    grid[xLoc][yLoc] = new Bomb(xLoc*boxSize, yLoc*boxSize, bombStr);
+    if (bombsOnField <= bombsAllowed){
+      int xLoc = (int)(centerX/boxSize);
+      int yLoc = (int)(centerY/boxSize);
+      grid[xLoc][yLoc] = new Bomb(xLoc*boxSize, yLoc*boxSize, bombStr, this);
+      bombsOnField++;
+    }
   }
   
   public void getHit(){
@@ -136,6 +139,10 @@ private class Player extends Item{
   
   public void die(){
     isAlive = false;
+  }
+  
+  public void decreaseBombsOnField(){
+    bombsOnField--;
   }
 }
 

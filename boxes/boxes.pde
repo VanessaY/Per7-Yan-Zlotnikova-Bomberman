@@ -43,7 +43,6 @@ void setup() {
           else if (ch.equals("b")){
             grid[c][r] = new PlayerB(c*boxSize, r*boxSize);
             b = (PlayerB)grid[c][r];
-            grid[c][r] = new Bomb(c*boxSize, r*boxSize);
           }
           else if (ch.equals("c")){
             grid[c][r] = new PlayerC(c*boxSize, r*boxSize);
