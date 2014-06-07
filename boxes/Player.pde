@@ -139,13 +139,15 @@ private class Player extends Item{
   }
   
   public void dropBomb(){
-    if (bombsOnField < bombsAllowed){
-      int xLoc = (int)(centerX/boxSize);
-      int yLoc = (int)(centerY/boxSize);
-      grid[xLoc][yLoc] = new Bomb(xLoc*boxSize, yLoc*boxSize, bombStr, this);
-      //this is being called twice on the first bombdrop?!?!?!?!?!#################################################################
-      isOnBomb = true;
-      bombsOnField = bombsOnField+1;
+    int xLoc = (int)(centerX/boxSize);
+    int yLoc = (int)(centerY/boxSize);
+    if (!(grid[xLoc][yLoc] instanceof Bomb)){
+      if (bombsOnField < bombsAllowed){
+        grid[xLoc][yLoc] = new Bomb(xLoc*boxSize, yLoc*boxSize, bombStr, this);
+        //this is being called twice on the first bombdrop?!?!?!?!?!#################################################################
+        isOnBomb = true;
+        bombsOnField = bombsOnField+1;
+      }
     }
   }
   
