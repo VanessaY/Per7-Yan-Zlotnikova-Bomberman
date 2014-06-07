@@ -10,7 +10,7 @@ public class Bomb extends Item {
     super(x, y, img);
     this.strength = str;
     this.tMinusSeconds = tMinusSeconds;
-    this.framesToDetonate = (int)tMinusSeconds*60;
+    this.framesToDetonate = (int)tMinusSeconds*framerate;
     this.p = p;
   }
 
@@ -134,7 +134,7 @@ private class Fire extends Item {
   public Fire(float x, float y, float tMinusSeconds, boolean isDrop) { 
     super(x, y, "images/fire.png");
     this.tMinusSeconds = tMinusSeconds;
-    this.framesToDelete = (int)(tMinusSeconds*60);
+    this.framesToDelete = (int)(tMinusSeconds*framerate);
     this.isDrop = isDrop;
   }
   

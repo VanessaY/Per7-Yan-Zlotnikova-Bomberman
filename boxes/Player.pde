@@ -38,7 +38,7 @@ private class Player extends Item{
   }
   
   public Player(float x, float y, String filename){
-    this(x, y, filename, 1, 0, 1, 2, 5, "images/empty.png");
+    this(x, y, filename, 2, 0, 1, 2, 2, "images/empty.png");
   }
   
   public Player(float x, float y){
@@ -71,10 +71,10 @@ private class Player extends Item{
   }
   
   private void isOnBombUpdate(){
-    System.out.println(bombsOnField + " " + bombsAllowed);
     isOnBomb = (isOnBombHelper(topLeftX, topLeftY) || isOnBombHelper(topRightX, topRightY) ||
                 isOnBombHelper(botLeftX, botLeftY) || isOnBombHelper(botRightX, botRightY));
   }
+  
   private boolean canGo(Item a, Item b){
      if (a instanceof DestructibleBox || a instanceof IndestructibleBox ||
          b instanceof DestructibleBox || b instanceof IndestructibleBox){

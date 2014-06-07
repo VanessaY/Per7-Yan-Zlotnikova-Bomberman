@@ -1,19 +1,26 @@
-//despawn
 //transparent when despawn
 
 private class Powerup extends Item{
-  float secDespawn;
-  int framesToDespawn;
-  public Powerup(float x, float y, String img, float secDespawn){
+  float secDelete;
+  int framesToDelete;
+  public Powerup(float x, float y, String img, float secDelete){
     super(x, y, img);
-    this.secDespawn = secDespawn;
-    framesToDespawn = (int)secDespawn;
+    this.secDelete = secDelete;
+    framesToDelete = (int)secDelete*framerate;
   }
   
   public Powerup(float x, float y, String img){
-    this(x, y, img, 1);
+    this(x, y, img, 10);
   }
   
+  public void countDown(){
+    if (framesToDelete == 0){
+      removeSelf();
+    }
+    else{
+      framesToDelete--;
+    }
+  }
 }
 
 private class SpeedUp extends Powerup{

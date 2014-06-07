@@ -7,6 +7,7 @@ Item[][] grid;
 int cols = 10;
 int rows = 10;
 int boxSize;
+int framerate;
 PlayerA a;
 PlayerB b;
 PlayerC c;
@@ -19,6 +20,8 @@ boolean wPressed, sPressed, aPressed, dPressed, shiftPressed;
 boolean upPressed, downPressed, leftPressed, rightPressed, spacePressed;
 
 void setup() {
+  framerate = 120;
+  frameRate(120);
   boxSize = 50;
   size(boxSize*10, boxSize*10);
   background(100);
@@ -146,6 +149,9 @@ void draw() {
       else if (obj instanceof Fire){
         ((Fire)obj).countDown();
       }
+      else if (obj instanceof Powerup){
+        ((Powerup)obj).countDown();
+      }
     }
   }
   
@@ -211,6 +217,43 @@ void draw() {
   if (shiftPressed){
     try{
       a.dropBomb();
+    }
+    catch (Exception E){
+    }
+  }
+  
+  //PlayerB
+  if (upPressed){
+    try{
+      b.moveUp();
+    }
+    catch (Exception e){
+    }
+  }
+  if (leftPressed){
+    try{
+      b.moveLeft();
+    }
+    catch (Exception e){
+    }
+  }
+  if (downPressed){
+    try{
+      b.moveDown();
+    }
+    catch (Exception e){
+    }
+  }
+  if (rightPressed){
+    try{
+      b.moveRight();
+    }
+    catch (Exception e){
+    }
+  }
+  if (spacePressed){
+    try{
+      b.dropBomb();
     }
     catch (Exception E){
     }
