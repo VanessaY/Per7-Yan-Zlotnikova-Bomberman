@@ -18,6 +18,9 @@ private class Player extends Item{
   float secInvulnerable; 
   int framesInvulnerable;
   
+  //movement after bomb placement
+  boolean isOnBomb;
+  
   PImage sprite;
   public Player(float x, float y, String filename,
                 int bombStr, int bombsOnField, int bombsAllowed, 
@@ -35,7 +38,7 @@ private class Player extends Item{
   }
   
   public Player(float x, float y, String filename){
-    this(x, y, filename, 1, 0, 1, 3, 5, "images/empty.png");
+    this(x, y, filename, 1, 0, 1, 2, 5, "images/empty.png");
   }
   
   public Player(float x, float y){
@@ -57,15 +60,29 @@ private class Player extends Item{
   
   public void PDisplay(){
     boundUpdate();
+    isOnBombUpdate();
     image(sprite, x, y);
-    rect(centerX - 5, centerY - 5, 10, 10);
   }
   
+  private boolean isOnBombHelper(float xCor, float yCor){
+    int x = (int)(xCor/boxSize);
+    int y = (int)(yCor/boxSize);
+    return grid[x][y] instanceof Bomb;
+  }
+  
+  private void isOnBombUpdate(){
+    System.out.println(bombsOnField + " " + bombsAllowed);
+    isOnBomb = (isOnBombHelper(topLeftX, topLeftY) || isOnBombHelper(topRightX, topRightY) ||
+                isOnBombHelper(botLeftX, botLeftY) || isOnBombHelper(botRightX, botRightY));
+  }
   private boolean canGo(Item a, Item b){
-     if (a instanceof DestructibleBox || a instanceof IndestructibleBox || a instanceof Bomb ||
-         b instanceof DestructibleBox || b instanceof IndestructibleBox || b instanceof Bomb){
-           return false;
-         }
+     if (a instanceof DestructibleBox || a instanceof IndestructibleBox ||
+         b instanceof DestructibleBox || b instanceof IndestructibleBox){
+       return false;
+     }
+     else if (!isOnBomb &&(a instanceof Bomb || b instanceof Bomb)){
+       return false;
+     }
      else{
        int xCor = (int)(centerX/boxSize);
        int yCor = (int)(centerY/boxSize);
@@ -85,7 +102,7 @@ private class Player extends Item{
          grid[xCor][yCor] = new Item(xCor*boxSize, yCor*boxSize);
        }
        else if (grid[xCor][yCor] instanceof BombUp){
-         bombsAllowed = bombsAllowed + 1;
+         bombsAllowed++;
          grid[xCor][yCor] = new Item(xCor*boxSize, yCor*boxSize);
        }
        return true;
@@ -122,11 +139,13 @@ private class Player extends Item{
   }
   
   public void dropBomb(){
-    if (bombsOnField <= bombsAllowed){
+    if (bombsOnField < bombsAllowed){
       int xLoc = (int)(centerX/boxSize);
       int yLoc = (int)(centerY/boxSize);
       grid[xLoc][yLoc] = new Bomb(xLoc*boxSize, yLoc*boxSize, bombStr, this);
-      bombsOnField++;
+      //this is being called twice on the first bombdrop?!?!?!?!?!#################################################################
+      isOnBomb = true;
+      bombsOnField = bombsOnField+1;
     }
   }
   

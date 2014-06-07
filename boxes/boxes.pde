@@ -13,7 +13,10 @@ PlayerC c;
 PlayerD d;
 
 //PlayerA
-boolean wPressed, sPressed, aPressed, dPressed, vPressed;
+boolean wPressed, sPressed, aPressed, dPressed, shiftPressed;
+
+//player b
+boolean upPressed, downPressed, leftPressed, rightPressed, spacePressed;
 
 void setup() {
   boxSize = 50;
@@ -74,8 +77,25 @@ void keyPressed(){
   else if (key == 'd'){
     dPressed = true;
   }
-  else if (key == 'v'){
-    vPressed = true;
+  else if (key == ' '){
+    spacePressed = true;
+  }
+  else if (key == CODED){
+    if (keyCode == SHIFT){
+      shiftPressed = true;
+    }
+    else if (keyCode == UP){
+      upPressed = true;
+    }
+    else if (keyCode == DOWN){
+      downPressed = true;
+    }
+    else if (keyCode == LEFT){
+      leftPressed = true;
+    }
+    else if (keyCode == RIGHT){
+      rightPressed = true;
+    }
   }
 }
 
@@ -92,8 +112,25 @@ void keyReleased(){
   else if (key == 'd'){
     dPressed = false;
   }
-  else if (key == 'v'){
-    vPressed = false;
+  else if (key == ' '){
+    spacePressed = false;
+  }
+  else if (key == CODED){
+    if (keyCode == SHIFT){
+      shiftPressed = false;
+    }
+    else if (keyCode == UP){
+      upPressed = false;
+    }
+    else if (keyCode == DOWN){
+      downPressed = false;
+    }
+    else if (keyCode == LEFT){
+      leftPressed = false;
+    }
+    else if (keyCode == RIGHT){
+      rightPressed = false;
+    }
   }
 }
 
@@ -139,7 +176,8 @@ void draw() {
       d = null;
     }
   }
-  catch (Exception e){}
+  catch (Exception e){
+  }
   
   //Player A
   if (wPressed){
@@ -170,7 +208,7 @@ void draw() {
     catch (Exception e){
     }
   }
-  if (vPressed){
+  if (shiftPressed){
     try{
       a.dropBomb();
     }

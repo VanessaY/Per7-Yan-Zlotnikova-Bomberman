@@ -58,11 +58,16 @@ public class Bomb extends Item {
       maxY = 9;
     }
     
-    int goingLeft = x; //starts from bomb location, goes left.
+    grid[x][y] = new Fire(x*boxSize, y*boxSize);
+    int goingLeft = x-1; //starts from bomb location, goes left.
     while (goingLeft >= minX && !(grid[goingLeft][y] instanceof IndestructibleBox)){
       //if the fire is able to get to this spot
       if (grid[goingLeft][y] instanceof DestructibleBox){
         ((DestructibleBox)grid[goingLeft][y]).takeHit();
+        goingLeft = minX - 1;
+      }
+      else if (grid[goingLeft][y] instanceof Bomb){
+        ((Bomb)grid[goingLeft][y]).explode();
         goingLeft = minX - 1;
       }
       else{
@@ -71,11 +76,15 @@ public class Bomb extends Item {
       }
     }    
     
-    int goingRight = x; //starts from bomb location, goes right;
+    int goingRight = x+1; //starts from bomb location, goes right;
     while (goingRight <= maxX && !(grid[goingRight][y] instanceof IndestructibleBox)) { 
       if (grid[goingRight][y] instanceof DestructibleBox){
         ((DestructibleBox)grid[goingRight][y]).takeHit();
         goingRight = maxX + 1;
+      }
+      else if (grid[goingRight][y] instanceof Bomb){
+        ((Bomb)grid[goingRight][y]).explode();
+        goingLeft = maxX + 1;
       }
       else{
         grid[goingRight][y] = new Fire(goingRight*boxSize, y*boxSize);
@@ -83,10 +92,14 @@ public class Bomb extends Item {
       }
     }
     
-    int goingUp = y; 
+    int goingUp = y+1; 
     while (goingUp >= minY && !(grid[x][goingUp] instanceof IndestructibleBox)){
       if (grid[x][goingUp] instanceof DestructibleBox){
         ((DestructibleBox)grid[x][goingUp]).takeHit();
+        goingUp = minY - 1;
+      }
+      else if (grid[x][goingUp] instanceof Bomb){
+        ((Bomb)grid[x][goingUp]).explode();
         goingUp = minY - 1;
       }
       else{
@@ -95,10 +108,14 @@ public class Bomb extends Item {
       }
     }
     
-    int goingDown = y; 
+    int goingDown = y-1;
     while (goingDown <= maxY && !(grid[x][goingDown] instanceof IndestructibleBox)) { 
       if (grid[x][goingDown] instanceof DestructibleBox){
         ((DestructibleBox)grid[x][goingDown]).takeHit();
+        goingDown = maxY + 1;
+      }
+      else if (grid[x][goingDown] instanceof Bomb){
+        ((Bomb)grid[x][goingDown]).explode();
         goingDown = maxY + 1;
       }
       else{
@@ -108,7 +125,7 @@ public class Bomb extends Item {
     }
   }
 }
-    
+
 private class Fire extends Item { 
   float tMinusSeconds; 
   int framesToDelete;
