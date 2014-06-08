@@ -7,6 +7,7 @@ private class Player extends Item{
   //player
   int health, speed;
   boolean isAlive;
+  PImage sprite;
   
   //Bounds of box
   float topLeftX, topLeftY, topRightX, topRightY, botLeftX, botLeftY, botRightX, botRightY;
@@ -21,7 +22,9 @@ private class Player extends Item{
   //movement after bomb placement
   boolean isOnBomb;
   
-  PImage sprite;
+  //Movement booleans
+  boolean isLeft, isRight, isUp, isDown, isMoving;
+  
   public Player(float x, float y, String filename,
                 int bombStr, int bombsOnField, int bombsAllowed, 
                 int health, int speed, String displayImg){
@@ -63,7 +66,6 @@ private class Player extends Item{
     isOnBombUpdate();
     image(sprite, x, y);
   }
-  
   private boolean isOnBombHelper(float xCor, float yCor){
     int x = (int)(xCor/boxSize);
     int y = (int)(yCor/boxSize);
