@@ -21,6 +21,9 @@ public class Item { //also used (for now at least) if there is an empty spot
     image(img, x, y);
   }
   
+  public Item() { 
+  }
+  
   public void removeSelf(){
     grid[(int)(x/boxSize)][(int)(y/boxSize)] = new Item(x, y);
   }

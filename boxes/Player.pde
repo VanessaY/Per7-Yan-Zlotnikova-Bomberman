@@ -45,6 +45,10 @@ private class Player extends Item{
     this(x, y, "images/Player.png");
   }
   
+  public Player() { 
+  }
+  
+  
   public void boundUpdate(){
     topLeftX = x + 3;
     topLeftY = y + 3;

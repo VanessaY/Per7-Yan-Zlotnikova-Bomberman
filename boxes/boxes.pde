@@ -12,6 +12,7 @@ PlayerA a;
 PlayerB b;
 PlayerC c;
 PlayerD d;
+AIPlayer AI;
 
 //PlayerA
 boolean wPressed, sPressed, aPressed, dPressed, shiftPressed;
@@ -47,8 +48,12 @@ void setup() {
             a = (PlayerA)grid[c][r];
           }
           else if (ch.equals("b")){
+            /*
             grid[c][r] = new PlayerB(c*boxSize, r*boxSize);
             b = (PlayerB)grid[c][r];
+            */
+            grid[c][r] = new AIPlayer(c*boxSize, r*boxSize);
+            AI = (AIPlayer)grid[c][r];
           }
           else if (ch.equals("c")){
             grid[c][r] = new PlayerC(c*boxSize, r*boxSize);
@@ -154,7 +159,13 @@ void draw() {
       }
     }
   }
-  
+  try { 
+    AI.PDisplay();
+    if(!(a.isAlive)) { 
+      AI = null;
+    }
+  }
+  catch (Exception e){} 
   try{
     a.PDisplay();
     if (!(a.isAlive)){

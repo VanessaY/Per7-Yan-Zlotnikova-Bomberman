@@ -4,6 +4,8 @@ public class Bomb extends Item {
   float tMinusSeconds;
   int framesToDetonate;
   int strength;
+  ArrayList<int[]> al = new ArrayList<int[]>();
+  
   Player p;
 
   public Bomb(float x, float y, float tMinusSeconds, String img, int str, Player p) {
@@ -34,7 +36,114 @@ public class Bomb extends Item {
       framesToDetonate--;
     }
   }
-  
+  /////////////////////////////////
+  public ArrayList<int[]> explodeLocs() { //arraylist of fire locatons
+    int x = ((int)this.x)/boxSize; //xcor in grid
+    int y = ((int)this.y)/boxSize; //ycor in grid
+    int[] loc = {x,y};
+    al.add(loc);
+    int minX = x - strength; //min x set on fire, provided clear space
+    if (minX < 0){
+      minX = 0; //absolute min is 0
+    }
+    
+    int maxX = x + strength; //max x set on fire, provided clear space
+    if (maxX > 9){
+      maxX = 9; //absolute max is 9
+    }
+    
+    int minY = y - strength; //same as above
+    if (minY < 0){
+      minY = 0;
+    }
+    int maxY = y + strength;
+    if (maxY > 9){
+      maxY = 9;
+    }
+   
+    int goingLeft = x-1; //starts from bomb location, goes left.
+    while (goingLeft >= minX && !(grid[goingLeft][y] instanceof IndestructibleBox)){
+      //if the fire is able to get to this spot
+      if (grid[goingLeft][y] instanceof DestructibleBox){
+        loc = new int[]{goingLeft,y};
+        al.add(loc);
+        goingLeft = minX - 1;
+      }
+      else if (grid[goingLeft][y] instanceof Bomb){
+        loc = new int[]{goingLeft,y};
+        al.add(loc);
+        goingLeft = minX - 1;
+      }
+      else{
+        loc = new int[]{goingLeft,y};
+        al.add(loc);
+        goingLeft--;
+      }
+    }    
+    
+    int goingRight = x+1; //starts from bomb location, goes right;
+    while (goingRight <= maxX && !(grid[goingRight][y] instanceof IndestructibleBox)) { 
+      if (grid[goingRight][y] instanceof DestructibleBox){
+        loc = new int[]{goingRight,y};
+        al.add(loc);
+        goingRight = maxX + 1;
+      }
+      else if (grid[goingRight][y] instanceof Bomb){
+        loc = new int[]{goingRight,y};
+        al.add(loc);
+        goingLeft = maxX + 1;
+      }
+      else{
+        loc = new int[]{goingRight,y};
+        al.add(loc);
+        goingRight++;
+      }
+    }
+    
+    int goingUp = y+1; 
+    while (goingUp >= minY && !(grid[x][goingUp] instanceof IndestructibleBox)){
+      if (grid[x][goingUp] instanceof DestructibleBox){
+        loc = new int[]{x,goingUp};
+        al.add(loc);
+        goingUp = minY - 1;
+      }
+      else if (grid[x][goingUp] instanceof Bomb){
+        loc = new int[]{x,goingUp};
+        al.add(loc);
+        goingUp = minY - 1;
+      }
+      else{
+        loc = new int[]{x,goingUp};
+        al.add(loc);
+        goingUp--;
+      }
+    }
+    
+    int goingDown = y-1;
+    while (goingDown <= maxY && !(grid[x][goingDown] instanceof IndestructibleBox)) { 
+      if (grid[x][goingDown] instanceof DestructibleBox){
+        loc = new int[]{x,goingDown};
+        al.add(loc);
+        goingDown = maxY + 1;
+      }
+      else if (grid[x][goingDown] instanceof Bomb){
+        loc = new int[]{x,goingDown};
+        al.add(loc);
+        goingDown = maxY + 1;
+      }
+      else{
+        loc = new int[]{x,goingDown};
+        al.add(loc);
+        goingDown++;
+      }
+    }
+    return al;
+  }
+    
+    
+    
+ /////////////////////////////////////////////////////////
+    
   public void explode() {
     p.decreaseBombsOnField();
     int x = ((int)this.x)/boxSize; //xcor in grid
