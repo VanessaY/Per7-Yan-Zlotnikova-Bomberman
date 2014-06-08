@@ -22,8 +22,9 @@ private class Player extends Item{
   //movement after bomb placement
   boolean isOnBomb;
   
-  //Movement booleans
-  boolean isLeft, isRight, isUp, isDown, isMoving;
+  //animaton variables
+  boolean isLeft, isRight, isUp, isDown, isMoving, isDying;
+  Animation left, right, up, down, stillL, stillR, stillU, stillD, dying;
   
   public Player(float x, float y, String filename,
                 int bombStr, int bombsOnField, int bombsAllowed, 
