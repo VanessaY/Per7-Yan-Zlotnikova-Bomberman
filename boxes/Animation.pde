@@ -1,8 +1,8 @@
-public class Animate{
+public class Animation{
   PImage[] images;
   int currentFrame;
   int maxFrames;
-  public Animate(PImage[] images){
+  public Animation(PImage[] images){
     this.images = images;
     currentFrame = 0;
     maxFrames = images.length;
