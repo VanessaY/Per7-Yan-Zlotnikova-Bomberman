@@ -3,6 +3,7 @@ public class Item { //also used (for now at least) if there is an empty spot
   protected Item[][] arr;
   PImage img;
   
+  
   public Item(float x, float y, 
   String fileName) {
     this.x = x;
