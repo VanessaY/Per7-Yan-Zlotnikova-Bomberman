@@ -22,9 +22,33 @@ private class AIPlayer extends Player {
     super(x, y, "images/PlayerB.png");
   }
   
-  public void escapeFromBomb() { 
-    
+  public void stay() {
   }
+  
+  public void escape() { 
+    escapeFromDeath((int)centerX/boxSize, (int)centerY/boxSize);
+  }
+  
+  public void escapeFromDeath(int x, int y) { 
+    if (atRiskOfDeath()) { 
+        moveUp();
+        escapeFromDeath(((int)centerX/boxSize),
+                         ((int)centerX/boxSize));
+        moveDown();
+        escapeFromDeath(((int)centerX/boxSize),
+                         ((int)centerX/boxSize));
+        moveRight();
+        escapeFromDeath(((int)centerX/boxSize),
+                         ((int)centerX/boxSize));
+        moveDown();
+        escapeFromDeath(((int)centerX/boxSize),
+                         ((int)centerX/boxSize));
+        if(atRiskOfDeath()) {
+          stay();
+        }
+    }
+  }
+    
   
   public void allBombsOnScreen() { 
     for (int r=0; r<grid.length; r++) { 
@@ -40,7 +64,7 @@ private class AIPlayer extends Player {
   int xCor = (int)(centerX/boxSize);
   int yCor = (int)(centerY/boxSize);
   ArrayList<Bomb> bombs = new ArrayList<Bomb>(); //all bombs on grid
-  ArrayList<int[]> fires = new ArrayList<int[]>(); //locations of fires
+  ArrayList<int[]> fires = new ArrayList<int[]>(); //locations of where fires will be
   
    for (int r=0; r<grid.length; r++) { 
       for (int c=0; c<grid[0].length; c++)  {

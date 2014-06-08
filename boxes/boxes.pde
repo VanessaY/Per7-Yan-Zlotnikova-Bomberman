@@ -228,6 +228,7 @@ void draw() {
   if (shiftPressed){
     try{
       a.dropBomb();
+      AI.escape();
     }
     catch (Exception E){
     }
