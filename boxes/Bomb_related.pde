@@ -5,7 +5,7 @@ public class Bomb extends Item {
   int framesToDetonate;
   int strength;
   ArrayList<int[]> al = new ArrayList<int[]>();
-  
+
   Player p;
 
   public Bomb(float x, float y, float tMinusSeconds, String img, int str, Player p) {
@@ -17,22 +17,21 @@ public class Bomb extends Item {
   }
 
   public Bomb(float x, float y, float tMinusSeconds, int str, Player p) { //for the typical black bomb
-    this(x, y, tMinusSeconds, "images/bomb.png", str, p);
+    this(x, y, tMinusSeconds, "images/officialmode/bomb.png", str, p);
   }
 
-  public Bomb(float x, float y, int str, Player p){
+  public Bomb(float x, float y, int str, Player p) {
     this(x, y, 2, str, p);
   }
-  
-  public Bomb(float x, float y, Player p){
+
+  public Bomb(float x, float y, Player p) {
     this(x, y, 2, 2, p);
   }
-  
-  public void countDown(){
-    if (framesToDetonate == 0){
+
+  public void countDown() {
+    if (framesToDetonate == 0) {
       explode();
-    }
-    else{
+    } else {
       framesToDetonate--;
     }
   }
@@ -40,194 +39,205 @@ public class Bomb extends Item {
   public ArrayList<int[]> explodeLocs() { //arraylist of fire locatons
     int x = ((int)this.x)/boxSize; //xcor in grid
     int y = ((int)this.y)/boxSize; //ycor in grid
-    int[] loc = {x,y};
+    int[] loc = {
+      x, y
+    };
     al.add(loc);
     int minX = x - strength; //min x set on fire, provided clear space
-    if (minX < 0){
+    if (minX < 0) {
       minX = 0; //absolute min is 0
     }
-    
+
     int maxX = x + strength; //max x set on fire, provided clear space
-    if (maxX > 9){
+    if (maxX > 9) {
       maxX = 9; //absolute max is 9
     }
-    
+
     int minY = y - strength; //same as above
-    if (minY < 0){
+    if (minY < 0) {
       minY = 0;
     }
     int maxY = y + strength;
-    if (maxY > 9){
+    if (maxY > 9) {
       maxY = 9;
     }
-   
+
     int goingLeft = x-1; //starts from bomb location, goes left.
-    while (goingLeft >= minX && !(grid[goingLeft][y] instanceof IndestructibleBox)){
+    while (goingLeft >= minX && ! (grid[goingLeft][y] instanceof IndestructibleBox)) {
       //if the fire is able to get to this spot
-      if (grid[goingLeft][y] instanceof DestructibleBox){
-        loc = new int[]{goingLeft,y};
+      if (grid[goingLeft][y] instanceof DestructibleBox) {
+        loc = new int[] {
+          goingLeft, y
+        };
         al.add(loc);
         goingLeft = minX - 1;
-      }
-      else if (grid[goingLeft][y] instanceof Bomb){
-        loc = new int[]{goingLeft,y};
+      } else if (grid[goingLeft][y] instanceof Bomb) {
+        loc = new int[] {
+          goingLeft, y
+        };
         al.add(loc);
         goingLeft = minX - 1;
-      }
-      else{
-        loc = new int[]{goingLeft,y};
+      } else {
+        loc = new int[] {
+          goingLeft, y
+        };
         al.add(loc);
         goingLeft--;
       }
     }    
-    
+
     int goingRight = x+1; //starts from bomb location, goes right;
-    while (goingRight <= maxX && !(grid[goingRight][y] instanceof IndestructibleBox)) { 
-      if (grid[goingRight][y] instanceof DestructibleBox){
-        loc = new int[]{goingRight,y};
+    while (goingRight <= maxX && ! (grid[goingRight][y] instanceof IndestructibleBox)) { 
+      if (grid[goingRight][y] instanceof DestructibleBox) {
+        loc = new int[] {
+          goingRight, y
+        };
         al.add(loc);
         goingRight = maxX + 1;
-      }
-      else if (grid[goingRight][y] instanceof Bomb){
-        loc = new int[]{goingRight,y};
+      } else if (grid[goingRight][y] instanceof Bomb) {
+        loc = new int[] {
+          goingRight, y
+        };
         al.add(loc);
         goingLeft = maxX + 1;
-      }
-      else{
-        loc = new int[]{goingRight,y};
+      } else {
+        loc = new int[] {
+          goingRight, y
+        };
         al.add(loc);
         goingRight++;
       }
     }
-    
+
     int goingUp = y+1; 
-    while (goingUp >= minY && !(grid[x][goingUp] instanceof IndestructibleBox)){
-      if (grid[x][goingUp] instanceof DestructibleBox){
-        loc = new int[]{x,goingUp};
+    while (goingUp >= minY && ! (grid[x][goingUp] instanceof IndestructibleBox)) {
+      if (grid[x][goingUp] instanceof DestructibleBox) {
+        loc = new int[] {
+          x, goingUp
+        };
         al.add(loc);
         goingUp = minY - 1;
-      }
-      else if (grid[x][goingUp] instanceof Bomb){
-        loc = new int[]{x,goingUp};
+      } else if (grid[x][goingUp] instanceof Bomb) {
+        loc = new int[] {
+          x, goingUp
+        };
         al.add(loc);
         goingUp = minY - 1;
-      }
-      else{
-        loc = new int[]{x,goingUp};
+      } else {
+        loc = new int[] {
+          x, goingUp
+        };
         al.add(loc);
         goingUp--;
       }
     }
-    
+
     int goingDown = y-1;
-    while (goingDown <= maxY && !(grid[x][goingDown] instanceof IndestructibleBox)) { 
-      if (grid[x][goingDown] instanceof DestructibleBox){
-        loc = new int[]{x,goingDown};
+    while (goingDown <= maxY && ! (grid[x][goingDown] instanceof IndestructibleBox)) { 
+      if (grid[x][goingDown] instanceof DestructibleBox) {
+        loc = new int[] {
+          x, goingDown
+        };
         al.add(loc);
         goingDown = maxY + 1;
-      }
-      else if (grid[x][goingDown] instanceof Bomb){
-        loc = new int[]{x,goingDown};
+      } else if (grid[x][goingDown] instanceof Bomb) {
+        loc = new int[] {
+          x, goingDown
+        };
         al.add(loc);
         goingDown = maxY + 1;
-      }
-      else{
-        loc = new int[]{x,goingDown};
+      } else {
+        loc = new int[] {
+          x, goingDown
+        };
         al.add(loc);
         goingDown++;
       }
     }
     return al;
   }
-    
-    
-    
- /////////////////////////////////////////////////////////
-    
+
+
+
+  /////////////////////////////////////////////////////////
+
+
   public void explode() {
     p.decreaseBombsOnField();
     int x = ((int)this.x)/boxSize; //xcor in grid
     int y = ((int)this.y)/boxSize; //ycor in grid
     int minX = x - strength; //min x set on fire, provided clear space
-    if (minX < 0){
+    if (minX < 0) {
       minX = 0; //absolute min is 0
     }
-    
+
     int maxX = x + strength; //max x set on fire, provided clear space
-    if (maxX > 9){
+    if (maxX > 9) {
       maxX = 9; //absolute max is 9
     }
-    
+
     int minY = y - strength; //same as above
-    if (minY < 0){
+    if (minY < 0) {
       minY = 0;
     }
     int maxY = y + strength;
-    if (maxY > 9){
+    if (maxY > 9) {
       maxY = 9;
     }
-    
+
     grid[x][y] = new Fire(x*boxSize, y*boxSize);
     int goingLeft = x-1; //starts from bomb location, goes left.
-    while (goingLeft >= minX && !(grid[goingLeft][y] instanceof IndestructibleBox)){
+    while (goingLeft >= minX && ! (grid[goingLeft][y] instanceof IndestructibleBox)) {
       //if the fire is able to get to this spot
-      if (grid[goingLeft][y] instanceof DestructibleBox){
+      if (grid[goingLeft][y] instanceof DestructibleBox) {
         ((DestructibleBox)grid[goingLeft][y]).takeHit();
         goingLeft = minX - 1;
-      }
-      else if (grid[goingLeft][y] instanceof Bomb){
+      } else if (grid[goingLeft][y] instanceof Bomb) {
         ((Bomb)grid[goingLeft][y]).explode();
         goingLeft = minX - 1;
-      }
-      else{
+      } else {
         grid[goingLeft][y] = new Fire(goingLeft*boxSize, y*boxSize);
         goingLeft--;
       }
     }    
-    
+
     int goingRight = x+1; //starts from bomb location, goes right;
-    while (goingRight <= maxX && !(grid[goingRight][y] instanceof IndestructibleBox)) { 
-      if (grid[goingRight][y] instanceof DestructibleBox){
+    while (goingRight <= maxX && ! (grid[goingRight][y] instanceof IndestructibleBox)) { 
+      if (grid[goingRight][y] instanceof DestructibleBox) {
         ((DestructibleBox)grid[goingRight][y]).takeHit();
         goingRight = maxX + 1;
-      }
-      else if (grid[goingRight][y] instanceof Bomb){
+      } else if (grid[goingRight][y] instanceof Bomb) {
         ((Bomb)grid[goingRight][y]).explode();
         goingLeft = maxX + 1;
-      }
-      else{
+      } else {
         grid[goingRight][y] = new Fire(goingRight*boxSize, y*boxSize);
         goingRight++;
       }
     }
-    
+
     int goingUp = y+1; 
-    while (goingUp >= minY && !(grid[x][goingUp] instanceof IndestructibleBox)){
-      if (grid[x][goingUp] instanceof DestructibleBox){
+    while (goingUp >= minY && ! (grid[x][goingUp] instanceof IndestructibleBox)) {
+      if (grid[x][goingUp] instanceof DestructibleBox) {
         ((DestructibleBox)grid[x][goingUp]).takeHit();
         goingUp = minY - 1;
-      }
-      else if (grid[x][goingUp] instanceof Bomb){
+      } else if (grid[x][goingUp] instanceof Bomb) {
         ((Bomb)grid[x][goingUp]).explode();
         goingUp = minY - 1;
-      }
-      else{
+      } else {
         grid[x][goingUp] = new Fire(x*boxSize, goingUp*boxSize);
         goingUp--;
       }
     }
-    
+
     int goingDown = y-1;
-    while (goingDown <= maxY && !(grid[x][goingDown] instanceof IndestructibleBox)) { 
-      if (grid[x][goingDown] instanceof DestructibleBox){
+    while (goingDown <= maxY && ! (grid[x][goingDown] instanceof IndestructibleBox)) { 
+      if (grid[x][goingDown] instanceof DestructibleBox) {
         ((DestructibleBox)grid[x][goingDown]).takeHit();
         goingDown = maxY + 1;
-      }
-      else if (grid[x][goingDown] instanceof Bomb){
+      } else if (grid[x][goingDown] instanceof Bomb) {
         ((Bomb)grid[x][goingDown]).explode();
         goingDown = maxY + 1;
-      }
-      else{
+      } else {
         grid[x][goingDown] = new Fire(x*boxSize, goingDown*boxSize);
         goingDown++;
       }
@@ -239,50 +249,72 @@ private class Fire extends Item {
   float tMinusSeconds; 
   int framesToDelete;
   boolean isDrop;
-  
+  Animation an;
+  int framesperframe, currently;
+  PImage frame;
   public Fire(float x, float y, float tMinusSeconds, boolean isDrop) { 
-    super(x, y, "images/fire.png");
+    super(x, y, "images/officialmode/fire1.png");
     this.tMinusSeconds = tMinusSeconds;
     this.framesToDelete = (int)(tMinusSeconds*framerate);
     this.isDrop = isDrop;
+    framesperframe = framerate/15;
+    currently = 0;
+    setAnim();
+    frame = loadImage("images/officialmode/fire1.png");
   }
-  
-  public Fire(float x, float y, Boolean b){
+
+  public void setAnim() {
+    PImage[] arr = new PImage[2];
+    arr[0] = loadImage("images/officialmode/fire1.png");
+    arr[1] = loadImage("images/officialmode/fire2.png");
+    an = new Animation(arr);
+  }
+
+  public Fire(float x, float y, Boolean b) {
     this(x, y, 1, b);
   }
-  
-  public Fire(float x, float y){
+
+  public Fire(float x, float y) {
     this(x, y, 1, false);
   }
-  
-  public void countDown(){
-    if (framesToDelete == 0){
-      if (isDrop){
-        drop();
+
+  public void display() {
+    if (ghettoMode) {
+      super.display();
+    } else {
+      if (currently > framesperframe) {
+        currently = 0;
+        frame = an.nextFrame();
+      } else {
+        currently++;
       }
-      else{
+      image(frame, x, y);
+    }
+  }
+  public void countDown() {
+    if (framesToDelete == 0) {
+      if (isDrop) {
+        drop();
+      } else {
         removeSelf();
       }
-    }
-    else{
+    } else {
       framesToDelete--;
     }
   }
-  
-  public void drop(){
+
+  public void drop() {
     Random r = new Random();
     int p = r.nextInt(4);
-    if (p == 0){
+    if (p == 0) {
       grid[(int)(x/boxSize)][(int)(y/boxSize)] = new SpeedUp(x, y);
-    }
-    else if (p == 1){
-      grid[(int)(x/boxSize)][(int)(y/boxSize)] = new HealthUp(x, y);      
-    }
-    else if (p == 2){
+    } else if (p == 1) {
+      grid[(int)(x/boxSize)][(int)(y/boxSize)] = new HealthUp(x, y);
+    } else if (p == 2) {
       grid[(int)(x/boxSize)][(int)(y/boxSize)] = new StrUp(x, y);
-    }
-    else if (p == 3){
+    } else if (p == 3) {
       grid[(int)(x/boxSize)][(int)(y/boxSize)] = new BombUp(x, y);
     }
   }
 }
+

@@ -4,6 +4,7 @@
 import java.util.*;
 Item[][] grid;
 
+boolean ghettoMode;
 int cols = 10;
 int rows = 10;
 int boxSize;
@@ -21,122 +22,107 @@ boolean wPressed, sPressed, aPressed, dPressed, shiftPressed;
 boolean upPressed, downPressed, leftPressed, rightPressed, spacePressed;
 
 void setup() {
+  ghettoMode = false;
   framerate = 120;
   frameRate(120);
   boxSize = 50;
   size(boxSize*10, boxSize*10);
   background(100);
   grid = new Item[cols][rows];
-  try{
+  try {
     BufferedReader reader = createReader("map1.txt");
-    for (int r = 0; r < rows; r++){
-      try{
+    for (int r = 0; r < rows; r++) {
+      try {
         String line = reader.readLine();
-        for (int c = 0; c < line.length(); c++){
+        for (int c = 0; c < line.length (); c++) {
           String ch = line.substring(c, c+1);
-          if (ch.equals(" ")){
+          if (ch.equals(" ")) {
             grid[c][r] = new Item(c*boxSize, r*boxSize);
-          }
-          else if (ch.equals("x")){
+          } else if (ch.equals("x")) {
             grid[c][r] = new IndestructibleBox(c*boxSize, r*boxSize);
-          }
-          else if (ch.equals("1")){
+          } else if (ch.equals("1")) {
             grid[c][r] = new DestructibleBox(c*boxSize, r*boxSize);
-          }
-          else if (ch.equals("a")){
+          } else if (ch.equals("a")) {
             grid[c][r] = new PlayerA(c*boxSize, r*boxSize);
             a = (PlayerA)grid[c][r];
-          }
-          else if (ch.equals("b")){
+          } else if (ch.equals("b")) {
             /*
             grid[c][r] = new PlayerB(c*boxSize, r*boxSize);
-            b = (PlayerB)grid[c][r];
-            */
+             b = (PlayerB)grid[c][r];
+             */
             grid[c][r] = new AIPlayer(c*boxSize, r*boxSize);
             AI = (AIPlayer)grid[c][r];
-          }
-          else if (ch.equals("c")){
+          } else if (ch.equals("c")) {
             grid[c][r] = new PlayerC(c*boxSize, r*boxSize);
-          }
-          else if (ch.equals("d")){
+          } else if (ch.equals("d")) {
             grid[c][r] = new PlayerD(c*boxSize, r*boxSize);
             d = (PlayerD)grid[c][r];
           }
         }
       }
-      catch(Exception e){
+      catch(Exception e) {
       }
     }
   }
-  catch(Exception e){
+  catch(Exception e) {
   }
 }
 
-void keyPressed(){
-  if (key == 'w'){
+void keyPressed() {
+  if (key == 'w') {
+    a.mU = true;
     wPressed = true;
-  }
-  else if (key == 'a'){
+  } else if (key == 'a') {
+    a.mL = true;
     aPressed = true;
-  }
-  else if (key == 's'){
+  } else if (key == 's') {
+    a.mD = true;
     sPressed = true;
-  }
-  else if (key == 'd'){
+  } else if (key == 'd') {
+    a.mR = true;
     dPressed = true;
-  }
-  else if (key == ' '){
+  } else if (key == ' ') {
     spacePressed = true;
-  }
-  else if (key == CODED){
-    if (keyCode == SHIFT){
+  } else if (key == CODED) {
+    if (keyCode == SHIFT) {
       shiftPressed = true;
-    }
-    else if (keyCode == UP){
+    } else if (keyCode == UP) {
       upPressed = true;
-    }
-    else if (keyCode == DOWN){
+    } else if (keyCode == DOWN) {
       downPressed = true;
-    }
-    else if (keyCode == LEFT){
+    } else if (keyCode == LEFT) {
       leftPressed = true;
-    }
-    else if (keyCode == RIGHT){
+    } else if (keyCode == RIGHT) {
       rightPressed = true;
     }
   }
 }
 
-void keyReleased(){
-  if (key == 'w'){
+void keyReleased() {
+  if (key == 'w') {
+    a.mU = false;
     wPressed = false;
-  }
-  else if (key == 'a'){
+  } else if (key == 'a') {
+    a.mL = false;
     aPressed = false;
-  }
-  else if (key == 's'){
+  } else if (key == 's') {
+    a.mD = false;
     sPressed = false;
-  }
-  else if (key == 'd'){
+  } else if (key == 'd') {
+    a.mR = false;
     dPressed = false;
-  }
-  else if (key == ' '){
+  } else if (key == ' ') {
     spacePressed = false;
-  }
-  else if (key == CODED){
-    if (keyCode == SHIFT){
+  } else if (key == CODED) {
+    if (keyCode == SHIFT) {
       shiftPressed = false;
-    }
-    else if (keyCode == UP){
+    } else if (keyCode == UP) {
       upPressed = false;
-    }
-    else if (keyCode == DOWN){
+    } else if (keyCode == DOWN) {
       downPressed = false;
-    }
-    else if (keyCode == LEFT){
+    } else if (keyCode == LEFT) {
       leftPressed = false;
-    }
-    else if (keyCode == RIGHT){
+    } else if (keyCode == RIGHT) {
       rightPressed = false;
     }
   }
@@ -148,126 +134,128 @@ void draw() {
     for (int r=0; r<rows; r++) {
       Item obj = grid[c][r];
       obj.display();
-      if (obj instanceof Bomb){
+      if (obj instanceof Bomb) {
         ((Bomb)obj).countDown();
-      }
-      else if (obj instanceof Fire){
+      } else if (obj instanceof Fire) {
         ((Fire)obj).countDown();
-      }
-      else if (obj instanceof Powerup){
+      } else if (obj instanceof Powerup) {
         ((Powerup)obj).countDown();
       }
     }
   }
   try { 
     AI.PDisplay();
-    if(!(AI.isAlive)) { 
+    if (!(AI.isAlive)) { 
       AI = null;
     }
   }
-  catch (Exception e){} 
-  try{
+  catch (Exception e) {
+  } 
+  try {
     a.PDisplay();
-    AI.act();
-    if (!(a.isAlive)){
+    if (!(a.isAlive)) {
       a = null;
     }
   }
-  catch (Exception e){}
-  try{
+  catch (Exception e) {
+  }
+  try {
     b.PDisplay();
-    if (!(b.isAlive)){
+    if (!(b.isAlive)) {
       b = null;
     }
   }
-  catch (Exception e){}
-  try{
+  catch (Exception e) {
+  }
+  try {
     c.PDisplay();
-    if (!(c.isAlive)){
+    if (!(c.isAlive)) {
       c = null;
     }
   }
-  catch (Exception e){}
-  try{
+  catch (Exception e) {
+  }
+  try {
     d.PDisplay();
-    if (!(d.isAlive)){
+    if (!(d.isAlive)) {
       d = null;
     }
   }
-  catch (Exception e){
+  catch (Exception e) {
   }
-  
+
   //Player A
-  if (wPressed){
-    try{
+  if (wPressed) {
+    try {
       a.moveUp();
     }
-    catch (Exception e){
+    catch (Exception e) {
     }
   }
-  if (aPressed){
-    try{
+  if (aPressed) {
+    try {
       a.moveLeft();
     }
-    catch (Exception e){
+    catch (Exception e) {
     }
   }
-  if (sPressed){
-    try{
+  if (sPressed) {
+    try {
       a.moveDown();
     }
-    catch (Exception e){
+    catch (Exception e) {
     }
   }
-  if (dPressed){
-    try{
+  if (dPressed) {
+    try {
       a.moveRight();
     }
-    catch (Exception e){
+    catch (Exception e) {
     }
   }
-  if (shiftPressed){
-    try{
+  if (shiftPressed) {
+    try {
       a.dropBomb();
     }
-    catch (Exception E){
+    catch (Exception E) {
     }
   }
-  
+
   //PlayerB
-  if (upPressed){
-    try{
+  if (upPressed) {
+    try {
       b.moveUp();
     }
-    catch (Exception e){
+    catch (Exception e) {
     }
   }
-  if (leftPressed){
-    try{
+  if (leftPressed) {
+    try {
       b.moveLeft();
     }
-    catch (Exception e){
+    catch (Exception e) {
     }
   }
-  if (downPressed){
-    try{
+  if (downPressed) {
+    try {
       b.moveDown();
     }
-    catch (Exception e){
+    catch (Exception e) {
     }
   }
-  if (rightPressed){
-    try{
+  if (rightPressed) {
+    try {
       b.moveRight();
     }
-    catch (Exception e){
+    catch (Exception e) {
     }
   }
-  if (spacePressed){
-    try{
+  if (spacePressed) {
+    try {
       b.dropBomb();
     }
-    catch (Exception E){
+    catch (Exception E) {
     }
   }
 }
+
