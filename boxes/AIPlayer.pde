@@ -6,6 +6,7 @@ import java.util.*;
 
 private class AIPlayer extends Player {
   PriorityQueue<int[]> p = new PriorityQueue();
+  int len = 0; //length of path;
    
   /*
   public AIPlayer(float x, float y, String filename,
@@ -30,7 +31,8 @@ private class AIPlayer extends Player {
     }
     else { 
       System.out.println("not safe");
-      escapeFromDeath((int)centerX/boxSize, (int)centerY/boxSize);
+      //escapeFromDeath((int)centerX/boxSize, (int)centerY/boxSize);
+      escapeFromDeath();
     }
   }
 
@@ -92,29 +94,29 @@ public void moveUp() {
 
 
 
-  public void escapeFromDeath(int x, int y) { 
-    if (atRiskOfDeath()) { 
-      moveDown();  
+  public void escapeFromDeath() { 
+    if (atRiskOfDeath()){ 
+      moveUp();
       if (atRiskOfDeath()) { 
-        moveUp();
-        escapeFromDeath(((int)centerX/boxSize),
-                         ((int)centerY/boxSize));
-      }
-      if (atRiskOfDeath()) { 
+        moveDown();
         moveRight();
-        escapeFromDeath(((int)centerX/boxSize),
-                         ((int)centerY/boxSize));
       }
-      if (atRiskOfDeath()) { 
-         moveLeft();
-        escapeFromDeath(((int)centerX/boxSize),
-                         ((int)centerY/boxSize));
+      if (atRiskOfDeath()) {
+        moveLeft();
+        moveLeft();
       }
+       if (atRiskOfDeath()) { 
+         moveRight();
+         moveRight();
+       }
       if (atRiskOfDeath()) { 
-        removeSelf();
+       System.out.println("removingself");
+       removeSelf();
       }
     }
   }
+        
+      
 
   public boolean atRiskOfDeath() { //checks if theres a bomb that could kill it
     int xCor = (int)(centerX/boxSize);
