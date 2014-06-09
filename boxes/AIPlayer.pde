@@ -97,6 +97,7 @@ public void moveUp() {
 }
 
 
+ 
 
   public void escape() { 
     if (atRiskOfDeath()) { 
