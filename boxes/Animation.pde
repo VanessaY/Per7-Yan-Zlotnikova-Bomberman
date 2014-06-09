@@ -2,12 +2,11 @@ public class Animation{
   PImage[] images;
   int currentFrame;
   int maxFrames;
-  Stack<PImage> st = new Stack(); //creates empty stack
-
+  List<PImage> LL = new LinkedList<PImage>(); //creates empty queue
  
   public Animation(PImage[] images){
     for (int i=0; i<images.length; i++) { 
-      st.push(images[i]);
+      LL.add(images[i]); //apends at end of list
     }
     this.images = images;
     currentFrame = 0;
