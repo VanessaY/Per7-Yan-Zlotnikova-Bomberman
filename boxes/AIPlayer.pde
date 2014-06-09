@@ -25,16 +25,7 @@ private class AIPlayer extends Player {
   public void stay() {
   }
   
-  public void escape() { 
-    if (!atRiskOfDeath()) { 
-      System.out.println("safe");
-    }
-    else { 
-      System.out.println("not safe");
-      //escapeFromDeath((int)centerX/boxSize, (int)centerY/boxSize);
-      escapeFromDeath();
-    }
-  }
+  
 
 
 
@@ -94,31 +85,35 @@ public void moveUp() {
 
 
 
-  public void escapeFromDeath() { 
-    if (atRiskOfDeath()){ 
-      moveUp();
-      if (atRiskOfDeath()) { 
-        moveDown();
-        moveRight();
-      }
-      if (atRiskOfDeath()) {
-        moveLeft();
-        moveLeft();
-      }
-       if (atRiskOfDeath()) { 
-         moveRight();
-         moveRight();
-       }
-      if (atRiskOfDeath()) { 
-       System.out.println("removingself");
-       removeSelf();
-      }
+  public void escape() { 
+    if (atRiskOfDeath()==0) {
+      return;
+    }
+    if (atRiskOfDeath()==1) { 
+      moveUp;
+    }
+    if (atRiskOfDeath()==2) { 
+      moveDown();
+    }
+    if (atRiskOfDeath()==3) { 
+      moveLeft();
+    }
+    if (atRiskOfDeath()==4) { 
+      moveRight();
+    }
+    if (atRiskOfDeath()==5) {
+      removeSelf();
     }
   }
-        
-      
+  
 
-  public boolean atRiskOfDeath() { //checks if theres a bomb that could kill it
+  public int atRiskOfDeath() { //checks if theres a bomb that could kill it
+                               // not at risk
+                               //1 = safe loc on top 
+                               // 2 = safe loc on bottom
+                               // 3 = safe loc on left
+                               // 4 = safe loc on right
+                               // 5 = commit suicide
     int xCor = (int)(centerX/boxSize);
     int yCor = (int)(centerY/boxSize);
     //ArrayList<Bomb> bombs = new ArrayList<Bomb>(); //all bombs on grid
@@ -130,16 +125,44 @@ public void moveUp() {
               Bomb b = (Bomb)grid[c][r];
               ArrayList<int[]> al = b.explodeLocs();
               for (int i=0; i<al.size(); i++) {
-                if (al.get(i)[0] == xCor && al.get(i)[1]== yCor) { 
-                  System.out.println("yup");
-                  return true;
+                int[] l = new int[]{xCor,yCor};
+                if (!(al.contains(l))) { 
+                  return 0;
+                }
+                if (al.get(i)[0] == xCor && al.get(i)[1]== yCor) { //it is at risk of death
+                  l = new int[]{xCor+1,yCor};
+                   if (!(al.contains(l))) { 
+                     if (xCor+1<10) { 
+                       if (!(grid[xCor+1][yCor] instanceof Box))
+                         return 4;
+                     }
+                   }
+                   l = new int[]{xCor-1,yCor};
+                   if (!(al.contains(l))) { 
+                     if (xCor-1>0) { 
+                       if (!(grid[xCor-1][yCor] instanceof Box))
+                        return 3;
+                     }
+                   }
+                   l = new int[]{xCor,yCor+1};
+                   if (!(al.contains(l))){ 
+                     if (yCor+1<10) { 
+                       if (!(grid[xCor][yCor+1] instanceof Box))
+                         return 1;
+                     }
+                   }
+                   l = new int[]{xCor,yCor-1};
+                    if (!(al.contains(l))) { 
+                      if (yCor-1>10) { 
+                       if (!(grid[xCor][yCor-1] instanceof Box))
+                        return 2;
+                      }
+                    }
                 }
               }
           }
         }
      }
-   System.out.println("nope");
-   return false;
+     System.out.println("nope");
+     return 5;
   }
-}
-
