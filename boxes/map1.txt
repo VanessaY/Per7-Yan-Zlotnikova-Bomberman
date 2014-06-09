@@ -1,6 +1,6 @@
 xxxxxxxxxx
 xa      bx
-x 1    1 x
+x 1      x
 x11   111x
 x11111111x
 x11111111x

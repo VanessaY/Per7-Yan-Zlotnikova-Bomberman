@@ -67,6 +67,9 @@ private class Player extends Item{
   }
   
   public void PDisplay(){
+    if (grid[(int)centerX/boxSize][(int)centerY/boxSize] instanceof Fire) {
+      die();
+    }
     boundUpdate();
     isOnBombUpdate();
     image(sprite, x, y);

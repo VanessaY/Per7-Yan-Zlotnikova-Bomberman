@@ -161,13 +161,14 @@ void draw() {
   }
   try { 
     AI.PDisplay();
-    if(!(a.isAlive)) { 
+    if(!(AI.isAlive)) { 
       AI = null;
     }
   }
   catch (Exception e){} 
   try{
     a.PDisplay();
+    AI.act();
     if (!(a.isAlive)){
       a = null;
     }
@@ -228,7 +229,6 @@ void draw() {
   if (shiftPressed){
     try{
       a.dropBomb();
-      AI.escape();
     }
     catch (Exception E){
     }

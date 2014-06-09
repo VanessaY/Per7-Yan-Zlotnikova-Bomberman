@@ -6,6 +6,9 @@ import java.util.*;
 
 private class AIPlayer extends Player {
   PriorityQueue<int[]> p = new PriorityQueue();
+  boolean canDropYet;
+  int secToWait;
+  int framestowait; 
   int len = 0; //length of path;
    
   /*
@@ -20,7 +23,18 @@ private class AIPlayer extends Player {
   */
   public AIPlayer(float x, float y){
     super(x, y, "images/PlayerB.png");
+    secToWait = 2;
+    framestowait = secToWait*framerate;
   }
+  
+  public void PDisplay(){
+      super.PDisplay();
+      if (framestowait == 0)
+          canDropYet = true;
+      else
+          framestowait--;
+  }
+          
   
   public void stay() {
   }
@@ -28,13 +42,12 @@ private class AIPlayer extends Player {
   
 
 
-
 public void moveDown() { 
    int xCor = (int)centerX/boxSize;
    int yCor = (int)(centerY/boxSize)+1;
    if (yCor <= 8 && yCor >= 0) { 
      if (!(grid[xCor][yCor] instanceof Box) && !(grid[xCor][yCor] instanceof Bomb) && !(grid[xCor][yCor] instanceof Fire)) { 
-       while (centerY < (yCor)*50) {
+       while ((int)centerY/boxSize < yCor) {
          y = y + speed;
          centerY = centerY + speed;
        }
@@ -47,7 +60,7 @@ public void moveRight() {
    int yCor = (int)centerY/boxSize;
    if (xCor <= 8 && xCor >= 0) { 
      if (!(grid[xCor][yCor] instanceof Box) && !(grid[xCor][yCor] instanceof Bomb) && !(grid[xCor][yCor] instanceof Fire)) { 
-       while (centerX < (xCor)*50) {
+       while (((int)centerX/boxSize)< xCor) {
          x = x + speed;
          centerX = centerX + speed;
        }
@@ -59,13 +72,13 @@ public void moveRight() {
 
 public void moveLeft() { 
    int xCor = (int)(centerX/boxSize)-1; 
-    int yCor = (int)centerY/boxSize;
+   int yCor = (int)centerY/boxSize;
    if (xCor <= 8 && xCor >= 0) {  
      if (!(grid[xCor][yCor] instanceof Box) && !(grid[xCor][yCor] instanceof Bomb) && !(grid[xCor][yCor] instanceof Fire)) { 
-       while (centerX > (xCor)*50) {
-          x = x - speed;
-         centerX = centerX - speed;
-       }
+       while (((int)centerX/boxSize)> xCor) { 
+          x = x- speed; 
+          centerX = x - speed;
+        }
      }
   }
 }
@@ -75,7 +88,7 @@ public void moveUp() {
    int xCor = (int)centerX/boxSize;
    if (yCor <= 8 && yCor >= 0) { 
      if (!(grid[xCor][yCor] instanceof Box) && !(grid[xCor][yCor] instanceof Bomb) && !(grid[xCor][yCor] instanceof Fire)) { 
-       while (centerY > (yCor)*50) {
+       while ((int)(centerY/boxSize)> yCor) {
          y = y + speed;
          centerY = centerY + speed;
        }
@@ -86,28 +99,45 @@ public void moveUp() {
 
 
   public void escape() { 
-    if (atRiskOfDeath()==0) {
-      return;
-    }
-    if (atRiskOfDeath()==1) { 
-      moveUp;
-    }
-    if (atRiskOfDeath()==2) { 
-      moveDown();
-    }
-    if (atRiskOfDeath()==3) { 
-      moveLeft();
-    }
-    if (atRiskOfDeath()==4) { 
-      moveRight();
-    }
-    if (atRiskOfDeath()==5) {
-      removeSelf();
+    if (atRiskOfDeath()) { 
+      moveUp();
+      if (atRiskOfDeath()) { 
+        moveDown();
+        moveDown();
+      }
+      if (atRiskOfDeath()) { 
+        moveUp();
+        moveRight();
+      }
+      if (atRiskOfDeath()) { 
+        moveLeft();
+        moveLeft();
+      }
+      if (atRiskOfDeath()) { 
+        isAlive = false;
+        return;
+      }
     }
   }
   
 
-  public int atRiskOfDeath() { //checks if theres a bomb that could kill it
+  
+  public void act() { 
+     escape();
+     double random = Math.random() * 49;
+     if (canDropYet==true){
+       if (random<5) 
+         dropBombHelper();
+     }
+  }
+    
+    
+  public void dropBombHelper() {
+    dropBomb();
+    //escape();
+  }
+
+  public boolean atRiskOfDeath() { //checks if theres a bomb that could kill it
                                // not at risk
                                //1 = safe loc on top 
                                // 2 = safe loc on bottom
@@ -124,13 +154,10 @@ public void moveUp() {
           if (grid[c][r] instanceof Bomb) {
               Bomb b = (Bomb)grid[c][r];
               ArrayList<int[]> al = b.explodeLocs();
-              for (int i=0; i<al.size(); i++) {
-                int[] l = new int[]{xCor,yCor};
-                if (!(al.contains(l))) { 
-                  return 0;
-                }
+              for (int i=0; i<al.size(); i++) { 
                 if (al.get(i)[0] == xCor && al.get(i)[1]== yCor) { //it is at risk of death
-                  l = new int[]{xCor+1,yCor};
+                 
+               /* l = new int[]{xCor+1,yCor};
                    if (!(al.contains(l))) { 
                      if (xCor+1<10) { 
                        if (!(grid[xCor+1][yCor] instanceof Box))
@@ -154,15 +181,20 @@ public void moveUp() {
                    l = new int[]{xCor,yCor-1};
                     if (!(al.contains(l))) { 
                       if (yCor-1>10) { 
-                       if (!(grid[xCor][yCor-1] instanceof Box))
+                       if (!(grid[xCor][yCor-1] instanceof Box)){
+                         System.out.println("werK");
                         return 2;
+                       }
                       }
+                     
                     }
+                    */
+                    return true;
                 }
               }
           }
         }
      }
-     System.out.println("nope");
-     return 5;
+     return false; 
   }
+}
